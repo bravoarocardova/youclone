@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge"
 import { PageHeaderFirstSection } from "./PageHeader"
 import { playlists, subscriptions } from "data/sidebar"
 import { useSidebarContext } from "contexts/SidebarContexts"
+import { NavLink } from "react-router-dom"
 
 export const Sidebar = () => {
   const {isLargeOpen, isSmallOpen, close} = useSidebarContext()
@@ -150,15 +151,18 @@ type SmallSidebarItemProps = {
 
 const SmallSidebarItem = ({ Icon, title, url}: SmallSidebarItemProps) => {
   return (
-    <a 
-      href={url}
-      className={twMerge(
-        buttonStyles({ variant: "ghost"}),
-        "py-4 px-1 flex flex-col items-center rounded-lg gap-1"
-      )}>
+    
+    <NavLink 
+      to={url}
+      className={({isActive}) => {
+        return (twMerge(
+          buttonStyles({ variant: "ghost"}),
+          `py-4 px-1 flex flex-col items-center rounded-lg gap-1 ${isActive ? "font-bold bg-neutral-100 hover:bg-secondary" : undefined}`
+        ))
+      }}>
         <Icon className="w-6 h-6" />
         <div className="text-sm">{title}</div>
-    </a>
+    </NavLink>
   )
 }
 
@@ -202,15 +206,17 @@ type LargeSidebarItemProps = {
 
 const LargeSidebarItem = ({IconOrImgUrl, title, url, isActive}: LargeSidebarItemProps) => {
   return (
-    <a 
-      href={url}
-      className={twMerge(
-        buttonStyles({ variant: "ghost" }),
-        `w-full flex items-center rounded-lg gap-4 p-3 ${
-          isActive ? "font-bold bg-neutral-100 hover:bg-secondary" : undefined
-        }`
-      )}
-      >
+
+    <NavLink 
+      to={url}
+      end
+      className={({isActive}) => {
+        return twMerge(
+          buttonStyles({ variant: "ghost" }),
+          `w-full flex items-center rounded-lg gap-4 p-3 ${isActive ? "font-bold bg-neutral-100 hover:bg-secondary" : undefined}`
+        )
+      }}
+    >
       {typeof IconOrImgUrl === "string" ? (
         <img src={IconOrImgUrl} alt="" className="w-6 h-6 rounded-full" />
       ) : (
@@ -219,6 +225,7 @@ const LargeSidebarItem = ({IconOrImgUrl, title, url, isActive}: LargeSidebarItem
       <div className="whitespace-nowrap overflow-hidden text-ellipsis">
         {title}
       </div>
-    </a>
+    </NavLink>
+    
   )
 }

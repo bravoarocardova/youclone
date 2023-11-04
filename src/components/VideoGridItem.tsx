@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { formatDuration } from "utils/formatDuration"
 import { formatTimeAgo } from "utils/formatTimeAgo"
+import { VIEW_FORMATTER } from "utils/formatView"
 
 type VideoGridItemProps = {
   id: string
@@ -17,9 +18,7 @@ type VideoGridItemProps = {
   videoUrl: string
 }
 
-const VIEW_FORMATTER = new Intl.NumberFormat(undefined, {
-  notation: "compact"
-})
+
 
 export const VideoGridItem = ({
   id,
